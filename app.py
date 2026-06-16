@@ -121,8 +121,21 @@ selected_period = st.selectbox(
 period = period_options[selected_period]
 
 # Fetch Data
+# Fetch Data
 stock = yf.Ticker(ticker)
-data = stock.history(period=period)
+
+try:
+    data = stock.history(period=period)
+
+    if data.empty:
+        st.warning("Stock data temporarily unavailable.")
+        st.stop()
+
+except Exception:
+    st.warning(
+        "Yahoo Finance rate limit reached. Please try again in a few minutes."
+    )
+    st.stop()
 
 if not data.empty:
 
@@ -130,12 +143,11 @@ if not data.empty:
 
     if len(data) > 1:
         previous_price = data["Close"].iloc[-2]
+
         change_percent = (
             (current_price - previous_price)
             / previous_price
         ) * 100
-    else:
-        change_percent = 0
 
     # Live Price
     st.metric(
@@ -583,4 +595,4 @@ try:
         st.info("No news found.")
 
 except Exception as e:
-    st.error(f"News unavailable: {e}")      
+    st.error(f"News unavailable: {e}")  
