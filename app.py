@@ -119,10 +119,10 @@ selected_period = st.selectbox(
 )
 
 period = period_options[selected_period]
-
-# Fetch Data
 # Fetch Data
 stock = yf.Ticker(ticker)
+change_percent = 0
+current_price = 0
 
 try:
     data = stock.history(period=period)
@@ -595,4 +595,4 @@ try:
         st.info("No news found.")
 
 except Exception as e:
-    st.error(f"News unavailable: {e}")  
+    st.error(f"News unavailable: {e}")   
