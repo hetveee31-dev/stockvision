@@ -169,7 +169,6 @@ if not data.empty:
 
     st.markdown("---")
     st.header("🏢 Company Information")
-    st.write("**Stock Symbol:**", selected_stock)
     st.write("**Current Price:**", f"₹{current_price:.2f}")  
     # Statistics
     st.markdown("---")
@@ -589,4 +588,4 @@ try:
         st.info("No news found.")
 
 except Exception as e:
-    st.error(f"News unavailable: {e}")      
+    st.error(f"News unavailable: {e}")       
