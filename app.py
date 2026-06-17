@@ -3,6 +3,11 @@ import feedparser
 import streamlit as st
 import yfinance as yf
 import base64
+# Add here 👇
+@st.cache_data(ttl=3600)
+def get_stock_data(symbol):
+    stock = yf.Ticker(symbol)
+    return stock.history(period="1y")
 
 def get_base64(file_path):
     with open(file_path, "rb") as f:
@@ -157,26 +162,15 @@ if not data.empty:
     )
 
     # Company Information
-    info = stock.info
+    try:
+        info = stock.fast_info
+    except:
+         info = {}    
 
     st.markdown("---")
     st.header("🏢 Company Information")
-
-    st.write(
-        "**Company Name:**",
-        info.get("longName", "N/A")
-    )
-
-    st.write(
-        "**Sector:**",
-        info.get("sector", "N/A")
-    )
-
-    st.write(
-        "**Industry:**",
-        info.get("industry", "N/A")
-    )
-
+    st.write("**Stock Symbol:**", selected_stock)
+    st.write("**Current Price:**", f"₹{current_price:.2f}")  
     # Statistics
     st.markdown("---")
     st.header("📊 Key Statistics")
@@ -595,4 +589,4 @@ try:
         st.info("No news found.")
 
 except Exception as e:
-    st.error(f"News unavailable: {e}")   
+    st.error(f"News unavailable: {e}")      
