@@ -468,92 +468,7 @@ if portfolio_data:
     )
 
 else:
-    st.info("No holdings yet.") 
-    # ==========================================
-# TOP  GAINERS & TOP  LOSERS
-# ==========================================
-
-st.markdown("---")
-st.subheader("📊 Market Summary")
-
-stocks_list = [
-    "RELIANCE.NS",
-    "TCS.NS",
-    "INFY.NS",
-    "WIPRO.NS",
-    "HDFCBANK.NS",
-    "ICICIBANK.NS",
-    "SBIN.NS",
-    "ITC.NS",
-    "LT.NS",
-    "BHARTIARTL.NS"
-]
-
-gainers_losers = []
-
-for stock in stocks_list:
-    try:
-        data = yf.Ticker(stock).history(period="2d")
-
-        if len(data) >= 2:
-            prev_close = data["Close"].iloc[-2]
-            current_close = data["Close"].iloc[-1]
-
-            change_pct = (
-                (current_close - prev_close)
-                / prev_close
-            ) * 100
-
-            gainers_losers.append(
-                [
-                    stock,
-                    round(current_close, 2),
-                    round(change_pct, 2)
-                ]
-            )
-
-    except:
-        pass
-
-if gainers_losers:
-
-    gl_df = pd.DataFrame(
-        gainers_losers,
-        columns=[
-            "Stock",
-            "Price (₹)",
-            "Change %"
-        ]
-    )
-
-    top_gainers = gl_df.sort_values(
-        by="Change %",
-        ascending=False
-    ).head(5)
-
-    top_losers = gl_df.sort_values(
-        by="Change %",
-        ascending=True
-    ).head(5)
-
-    col1, col2 = st.columns(2)
-
-    with col1:
-        st.success("📈 Top 5 Gainers")
-        st.dataframe(
-            top_gainers,
-            use_container_width=True
-        )
-
-    with col2:
-        st.error("📉 Top 5 Losers")
-        st.dataframe(
-            top_losers,
-            use_container_width=True
-        )
-
-else:
-    st.warning("Market data unavailable.")     
+    st.info("No holdings yet.")  
     # ==========================================
 # LATEST STOCK NEWS
 # ==========================================
@@ -588,4 +503,5 @@ try:
         st.info("No news found.")
 
 except Exception as e:
-    st.error(f"News unavailable: {e}")       
+    st.error(f"News unavailable: {e}")   
+    
