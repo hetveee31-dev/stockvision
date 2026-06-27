@@ -478,7 +478,7 @@ st.subheader("📰 Latest Stock News")
 
 try:
     rss_url = (
-        f"https://news.google.com/rss/search?q={stock}"
+        f"https://news.google.com/rss/search?q=RELIANCE"
     )
 
     feed = feedparser.parse(rss_url)
